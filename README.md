@@ -1,23 +1,25 @@
-# Lennujaama lennufirmad
+# Lennujaama ja lennufirma lennud
 
-Vaike PHP/SQLite veebirakendus, mis kysib lennujaama ICAO koodi jargi AeroDataBox API-st lennujaama saabumised ja valjumised ning koondab sealt unikaalsed lennufirmad.
+PHP/SQLite veebirakendus, mis kasutab AeroDataBox RapidAPI-t.
+
+## Lehed
+
+- `index.html` - sisesta lennujaama ICAO kood ja saad lennufirmad. Iga lennufirma all kuvatakse sama ajavahemiku flight numbrid ja marsruudid.
+- `airline.html` - sisesta lennufirma ICAO kood ja saad flight numbrid koos marsruutidega.
 
 ## Kaivitamine XAMPP-is
 
-1. Pane projekt XAMPP-i veebikausta, naiteks `C:\xampp\htdocs\planes`.
+1. Projekt peab olema kaustas `C:\xampp\htdocs\planes`.
 2. Ava `config.php` ja kontrolli, et `aerodatabox_rapidapi_key` oleks olemas.
 3. Veendu, et PHP laiendused `pdo_sqlite`, `sqlite3` ja `curl` on XAMPP-is lubatud.
 4. Ava brauseris `http://localhost/planes/`.
 
-Rakendus loob andmebaasi automaatselt faili `data/planes.sqlite`.
+SQLite andmebaas luuakse automaatselt faili `data/planes.sqlite`.
 
-## API
+## Kasutatud AeroDataBox endpointid
 
-Rakendus kasutab AeroDataBox RapidAPI endpointi:
-
-- `GET /flights/airports/icao/{ICAO}`
-- `offsetMinutes=0`
-- `durationMinutes=720`
-- `direction=Both`
+- `GET /flights/airports/icao/{ICAO}` - lennujaama saabumised ja valjumised.
+- `GET /flights/search/term` - flight number otsing lennufirma ICAO prefiksi jargi.
+- `GET /flights/Number/{flightNumber}` - flight number marsruudi detailid.
 
 Tulemused salvestatakse SQLite vahemallu, et RapidAPI limiiti mitte iga otsinguga kulutada.

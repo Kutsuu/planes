@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="et">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lennufirma lennud</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <nav class="top-nav">
+            <a href="index.html">Lennujaama otsing</a>
+            <a class="active" href="airline.html">Lennufirma otsing</a>
+        </nav>
+
+        <section class="search-panel">
+            <div>
+                <p class="eyebrow">ICAO lennufirma otsing</p>
+                <h1>Flight numbrid ja marsruudid</h1>
+            </div>
+
+            <form id="airlineForm" class="search-form">
+                <label for="airlineInput">Lennufirma ICAO kood</label>
+                <div class="search-row">
+                    <input id="airlineInput" name="icao" type="text" maxlength="3" placeholder="KLM" autocomplete="off" required>
+                    <button type="submit">Otsi</button>
+                </div>
+            </form>
+
+            <div id="airlineStatus" class="status" role="status"></div>
+        </section>
+
+        <section class="scan-panel">
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">SQLite andmekogu</p>
+                    <h2>Skaneeri lennujaamu</h2>
+                </div>
+            </div>
+
+            <form id="scanForm" class="scan-form">
+                <label for="scanAirports">Lennujaamade ICAO koodid</label>
+                <textarea id="scanAirports" rows="3" placeholder="EETN EFHK EVRA ESSA"></textarea>
+                <div class="scan-actions">
+                    <label class="checkbox-row">
+                        <input id="scanRefresh" type="checkbox">
+                        <span>Varskenda API-st</span>
+                    </label>
+                    <button type="submit">Skaneeri</button>
+                </div>
+            </form>
+
+            <div id="scanStatus" class="status" role="status"></div>
+            <div id="scanResults" class="scan-results"></div>
+        </section>
+
+        <section class="results-panel">
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">Tulemused</p>
+                    <h2 id="airlineTitle">Sisesta lennufirma ICAO kood</h2>
+                </div>
+            </div>
+            <div id="airlineFlights" class="flight-list empty-state">Tulemused ilmuvad siia.</div>
+        </section>
+    </main>
+
+    <script src="airline.js"></script>
+</body>
+</html>

@@ -10,6 +10,10 @@ return [
     'cache_ttl_seconds' => 86400,
     'flight_offset_minutes' => 0,
     'flight_duration_minutes' => 720,
+    'airline_search_limit' => 20,
+    'airline_detail_pause_microseconds' => 450000,
+    'airport_scan_limit' => 8,
+    'airport_scan_pause_microseconds' => 700000,
 
     'database_path' => __DIR__ . '/data/planes.sqlite',
 ];

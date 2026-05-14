@@ -65,6 +65,47 @@ function migrate(PDO $pdo): void
             FOREIGN KEY (airline_id) REFERENCES airlines(id) ON DELETE CASCADE
         );
 
+        CREATE TABLE IF NOT EXISTS airport_flights (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            airport_icao TEXT NOT NULL,
+            airline_id INTEGER NOT NULL,
+            number TEXT NOT NULL,
+            call_sign TEXT,
+            status TEXT,
+            departure_name TEXT,
+            departure_iata TEXT,
+            departure_icao TEXT,
+            departure_time_local TEXT,
+            arrival_name TEXT,
+            arrival_iata TEXT,
+            arrival_icao TEXT,
+            arrival_time_local TEXT,
+            FOREIGN KEY (airport_icao) REFERENCES airports(icao) ON DELETE CASCADE,
+            FOREIGN KEY (airline_id) REFERENCES airlines(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE IF NOT EXISTS airline_searches (
+            airline_icao TEXT PRIMARY KEY,
+            last_fetched_at INTEGER NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS airline_flights (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            airline_icao TEXT NOT NULL,
+            number TEXT NOT NULL,
+            call_sign TEXT,
+            status TEXT,
+            departure_name TEXT,
+            departure_iata TEXT,
+            departure_icao TEXT,
+            departure_time_local TEXT,
+            arrival_name TEXT,
+            arrival_iata TEXT,
+            arrival_icao TEXT,
+            arrival_time_local TEXT,
+            FOREIGN KEY (airline_icao) REFERENCES airline_searches(airline_icao) ON DELETE CASCADE
+        );
+
         CREATE TABLE IF NOT EXISTS favorite_airports (
             icao TEXT PRIMARY KEY,
             name TEXT,

@@ -3,53 +3,115 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lennujaama lennufirmad</title>
+    <title>Flight Sim Route Finder</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <main class="app-shell">
-        <section class="search-panel">
-            <div>
-                <p class="eyebrow">ICAO lennujaama otsing</p>
-                <h1>Lennufirmad lennujaama järgi</h1>
+        <nav class="top-nav">
+            <a class="active" href="index.html">Flight finder</a>
+            <a href="airline.html">Andmekogu</a>
+        </nav>
+
+        <section class="planner-hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Flight sim planner</p>
+                <h1>Leia lend, number ja marsruut</h1>
             </div>
 
-            <form id="searchForm" class="search-form">
-                <label for="icaoInput">Lennujaama ICAO kood</label>
-                <div class="search-row">
-                    <input id="icaoInput" name="icao" type="text" maxlength="4" value="EETN" placeholder="EETN" autocomplete="off" required>
-                    <button type="submit">Otsi</button>
+            <div class="mode-tabs" role="tablist" aria-label="Otsinguviis">
+                <button class="mode-tab active" type="button" data-mode="route">Lennujaam -> lennujaam</button>
+                <button class="mode-tab" type="button" data-mode="airline">Lennujaam + lennufirma</button>
+            </div>
+
+            <form id="routeForm" class="planner-form" data-form="route">
+                <div class="field-grid two">
+                    <label>
+                        <span>Lahtekoht</span>
+                        <input id="fromInput" name="from" type="text" placeholder="EETN / TLL / Tallinn" autocomplete="off" required>
+                    </label>
+                    <label>
+                        <span>Sihtkoht</span>
+                        <input id="toInput" name="to" type="text" placeholder="ESSA / ARN / Stockholm" autocomplete="off" required>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <label class="checkbox-row">
+                        <input id="routeRefresh" type="checkbox">
+                        <span>Varskenda API-st</span>
+                    </label>
+                    <button type="submit">Leia lennud</button>
+                </div>
+            </form>
+
+            <form id="airportAirlineForm" class="planner-form hidden" data-form="airline">
+                <div class="field-grid three">
+                    <label>
+                        <span>Lennujaam</span>
+                        <input id="airportInput" name="airport" type="text" placeholder="EETN / TLL / Tallinn" autocomplete="off" required>
+                    </label>
+                    <label>
+                        <span>Lennufirma</span>
+                        <input id="airlineInput" name="airline" type="text" placeholder="BTI / BT / airBaltic" autocomplete="off" required>
+                    </label>
+                    <label>
+                        <span>Suund</span>
+                        <select id="directionInput" name="direction">
+                            <option value="departures">Valjuvad</option>
+                            <option value="arrivals">Saabuvad</option>
+                            <option value="both">Molemad</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <label class="checkbox-row">
+                        <input id="airlineRefresh" type="checkbox">
+                        <span>Varskenda API-st</span>
+                    </label>
+                    <button type="submit">Leia marsruudid</button>
                 </div>
             </form>
 
             <div id="status" class="status" role="status"></div>
         </section>
 
-        <section class="content-grid">
-            <div class="results-panel">
+        <section class="planner-layout">
+            <section class="results-panel planner-results">
                 <div class="panel-header">
                     <div>
                         <p class="eyebrow">Tulemused</p>
-                        <h2 id="airportTitle">Sisesta ICAO kood</h2>
+                        <h2 id="resultsTitle">Sisesta otsing</h2>
                     </div>
-                    <button id="saveAirportBtn" class="secondary hidden" type="button">Salvesta lennujaam</button>
                 </div>
-                <div id="airlineList" class="airline-list empty-state">Tulemused ilmuvad siia.</div>
-            </div>
 
-            <aside class="favorites-panel">
+                <div id="summaryStats" class="summary-stats"></div>
+                <div id="resultsList" class="results-list empty-state">Tulemused ilmuvad siia.</div>
+            </section>
+
+            <aside class="scan-panel">
                 <div class="panel-header compact">
                     <div>
-                        <p class="eyebrow">Lemmikud</p>
-                        <h2>Salvestatud</h2>
+                        <p class="eyebrow">SQLite cache</p>
+                        <h2>Skaneeri lennujaamu</h2>
                     </div>
                 </div>
 
-                <h3>Lennujaamad</h3>
-                <div id="favoriteAirports" class="favorite-list empty-state">Lemmikuid veel ei ole.</div>
+                <form id="scanForm" class="scan-form">
+                    <label for="scanAirports">Lennujaamade ICAO koodid</label>
+                    <textarea id="scanAirports" rows="4" placeholder="EETN EFHK EVRA ESSA EKCH"></textarea>
+                    <div class="scan-actions">
+                        <label class="checkbox-row">
+                            <input id="scanRefresh" type="checkbox">
+                            <span>Varskenda API-st</span>
+                        </label>
+                        <button type="submit">Skaneeri</button>
+                    </div>
+                </form>
 
-                <h3>Lennufirmad</h3>
-                <div id="favoriteAirlines" class="favorite-list empty-state">Lemmikuid veel ei ole.</div>
+                <div id="scanStatus" class="status" role="status"></div>
+                <div id="scanResults" class="scan-results"></div>
             </aside>
         </section>
     </main>
