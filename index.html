@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="et">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lennujaama lennufirmad</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="search-panel">
+            <div>
+                <p class="eyebrow">ICAO lennujaama otsing</p>
+                <h1>Lennufirmad lennujaama järgi</h1>
+            </div>
+
+            <form id="searchForm" class="search-form">
+                <label for="icaoInput">Lennujaama ICAO kood</label>
+                <div class="search-row">
+                    <input id="icaoInput" name="icao" type="text" maxlength="4" value="EETN" placeholder="EETN" autocomplete="off" required>
+                    <button type="submit">Otsi</button>
+                </div>
+            </form>
+
+            <div id="status" class="status" role="status"></div>
+        </section>
+
+        <section class="content-grid">
+            <div class="results-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">Tulemused</p>
+                        <h2 id="airportTitle">Sisesta ICAO kood</h2>
+                    </div>
+                    <button id="saveAirportBtn" class="secondary hidden" type="button">Salvesta lennujaam</button>
+                </div>
+                <div id="airlineList" class="airline-list empty-state">Tulemused ilmuvad siia.</div>
+            </div>
+
+            <aside class="favorites-panel">
+                <div class="panel-header compact">
+                    <div>
+                        <p class="eyebrow">Lemmikud</p>
+                        <h2>Salvestatud</h2>
+                    </div>
+                </div>
+
+                <h3>Lennujaamad</h3>
+                <div id="favoriteAirports" class="favorite-list empty-state">Lemmikuid veel ei ole.</div>
+
+                <h3>Lennufirmad</h3>
+                <div id="favoriteAirlines" class="favorite-list empty-state">Lemmikuid veel ei ole.</div>
+            </aside>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
